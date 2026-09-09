@@ -14,10 +14,10 @@ Fuera del alcance del MVP: Mantenimiento, Compras no productivas, Operaciones CD
 
 ## Deploy en Render
 
-Tipo de servicio: Static Site
+Tipo de servicio: Web Service
 
 - Build command: vacio
-- Publish directory: `.`
-- Rewrite: `/*` a `/index.html`
+- Start command: `node server.js`
+- Variable requerida: `DEMO_PASSWORD`
 
-La demo usa datos ficticios y no requiere backend, base de datos ni credenciales.
+La demo usa datos ficticios y no requiere base de datos. La clave se define como variable secreta en Render, no en el codigo.
