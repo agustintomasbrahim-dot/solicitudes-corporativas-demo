@@ -7,20 +7,34 @@
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
+    <header class="system-bar">
+      <div class="system-title">
+        <strong>Grupo Dabra - Service Management</strong>
+        <span>Solicitudes corporativas</span>
+      </div>
+      <div class="system-actions">
+        <button title="Buscar"><i data-lucide="search"></i></button>
+        <button title="Notificaciones"><i data-lucide="bell"></i></button>
+        <button title="Perfil"><i data-lucide="circle-user-round"></i></button>
+      </div>
+    </header>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand">
-          <div class="brand-mark">SC</div>
+          <div class="brand-mark"><i data-lucide="layout-dashboard"></i></div>
           <div>
-            <strong>Solicitudes</strong>
-            <span>Demo MVP</span>
+            <strong>Administracion</strong>
+            <span>Service Desk</span>
           </div>
         </div>
         <nav class="nav">
+          <span class="nav-label">Mi trabajo</span>
           <button class="nav-item active" data-view="portal"><i data-lucide="plus-circle"></i><span>Nueva solicitud</span></button>
-          <button class="nav-item" data-view="inbox"><i data-lucide="inbox"></i><span>Bandeja</span></button>
+          <button class="nav-item" data-view="inbox"><i data-lucide="list-todo"></i><span>Solicitudes</span></button>
+          <span class="nav-label">Coordinador</span>
           <button class="nav-item" data-view="reports"><i data-lucide="bar-chart-3"></i><span>Reportes</span></button>
-          <button class="nav-item" data-view="admin"><i data-lucide="settings-2"></i><span>Admin</span></button>
+          <span class="nav-label">Configuracion</span>
+          <button class="nav-item" data-view="admin"><i data-lucide="settings-2"></i><span>Catalogo y reglas</span></button>
         </nav>
         <div class="scope-box">
           <span>Alcance MVP</span>
@@ -31,12 +45,12 @@
       <main class="main">
         <header class="topbar">
           <div>
-            <h1>Sistema Corporativo de Solicitudes</h1>
-            <p>Prototipo navegable con datos ficticios, inspirado en la estructura operativa relevada en InvGate.</p>
+            <h1>Solicitudes</h1>
+            <p>Vista demo con catalogo de servicios, mesa asignada, SLA y bandejas operativas.</p>
           </div>
           <div class="user-chip">
             <i data-lucide="user-round"></i>
-            <span>Usuario Microsoft</span>
+            <span>agustin@empresa.com</span>
           </div>
         </header>
 
@@ -64,8 +78,8 @@
             <section class="panel catalog-panel">
               <div class="panel-head">
                 <div>
-                  <h2>Catalogo</h2>
-                  <p>Primero se elige el servicio, despues cambia el formulario.</p>
+                  <h2>Catalogo de servicios</h2>
+                  <p>Seleccione una categoria para iniciar la solicitud.</p>
                 </div>
               </div>
               <div class="catalog" id="catalog"></div>
@@ -74,7 +88,7 @@
             <section class="panel form-panel">
               <div class="panel-head">
                 <div>
-                  <h2>Nueva solicitud</h2>
+                  <h2>Registrar solicitud</h2>
                   <p id="selectedPath">Tecnologia / Sistemas / Accesos / Alta de usuario</p>
                 </div>
                 <span class="pill" id="assignedTeam">Tecnologia Nivel 1</span>
@@ -84,6 +98,22 @@
                   <label>
                     Solicitante
                     <input value="Sucursal 184 - Alto Palermo" aria-label="Solicitante">
+                  </label>
+                  <label>
+                    Origen
+                    <select aria-label="Origen">
+                      <option>Web</option>
+                      <option>Email</option>
+                      <option>Telefono</option>
+                    </select>
+                  </label>
+                  <label>
+                    Tipo
+                    <select aria-label="Tipo">
+                      <option>Requerimiento</option>
+                      <option>Incidente</option>
+                      <option>Consulta</option>
+                    </select>
                   </label>
                   <label>
                     Prioridad
@@ -125,14 +155,21 @@
             <section class="panel">
               <div class="panel-head">
                 <div>
-                  <h2>Bandeja de equipo</h2>
-                  <p>Vista operativa por estado, SLA, prioridad y responsable.</p>
+                  <h2>Solicitudes no solucionadas</h2>
+                  <p>Tabla operativa por categoria, prioridad, SLA y responsable.</p>
                 </div>
                 <div class="segmented">
                   <button class="active">No solucionados</button>
                   <button>Sin asignar</button>
                   <button>Mis tickets</button>
                 </div>
+              </div>
+              <div class="table-head">
+                <span>Solicitud</span>
+                <span>Categoria</span>
+                <span>Prioridad</span>
+                <span>Estado</span>
+                <span>SLA</span>
               </div>
               <div class="ticket-list" id="ticketList"></div>
             </section>
@@ -152,11 +189,17 @@
                   <div><span>Equipo</span><strong id="detailTeam">Marketing</strong></div>
                   <div><span>Esperando por</span><strong id="detailWaiting">Agente</strong></div>
                 </div>
+                <div class="detail-tabs">
+                  <button class="active">Conversacion</button>
+                  <button>Campos</button>
+                  <button>Tareas</button>
+                  <button>Tiempo</button>
+                </div>
                 <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
                 <div class="timeline">
-                  <div><i data-lucide="circle-dot"></i><span>Ticket creado desde portal web</span></div>
-                  <div><i data-lucide="circle-dot"></i><span>Asignado automaticamente por categoria</span></div>
-                  <div><i data-lucide="circle-dot"></i><span>Coordinador agrego nota interna</span></div>
+                  <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Ticket creado desde portal web</span></div>
+                  <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Asignado automaticamente por categoria</span></div>
+                  <div><i data-lucide="circle-dot"></i><span><b>09:27</b> Coordinador agrego nota interna</span></div>
                 </div>
                 <div class="actions detail-actions">
                   <button class="secondary"><i data-lucide="message-square"></i>Responder</button>

@@ -110,7 +110,8 @@ const ticketList = document.querySelector("#ticketList");
 function renderCatalog() {
   catalog.innerHTML = catalogItems.map((item, index) => `
     <button type="button" class="${index === 0 ? "active" : ""}" data-index="${index}">
-      <strong>${item.area}</strong>
+      <span class="catalog-area">${item.area}</span>
+      <strong>${item.path}</strong>
       <span>${item.summary}</span>
     </button>
   `).join("");
@@ -136,14 +137,11 @@ function selectCatalog(index) {
 function renderTickets() {
   ticketList.innerHTML = tickets.map((ticket, index) => `
     <button type="button" class="ticket-row ${index === 0 ? "active" : ""}" data-index="${index}">
-      <span>
-        <strong>#${ticket.id} - ${ticket.title}</strong>
-        <p>${ticket.category}</p>
-      </span>
-      <span class="ticket-meta">
-        <span class="priority ${ticket.priority}">${ticket.priority}</span>
-        <small>${ticket.sla}</small>
-      </span>
+      <span><strong>#${ticket.id}</strong><em>${ticket.title}</em></span>
+      <span>${ticket.category}</span>
+      <span class="priority ${ticket.priority}">${ticket.priority}</span>
+      <span class="status-cell">${ticket.status}</span>
+      <span>${ticket.sla}</span>
     </button>
   `).join("");
 }
