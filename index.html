@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema Corporativo de Solicitudes - Demo</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">SC</div>
+          <div>
+            <strong>Solicitudes</strong>
+            <span>Demo MVP</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-view="portal"><i data-lucide="plus-circle"></i><span>Nueva solicitud</span></button>
+          <button class="nav-item" data-view="inbox"><i data-lucide="inbox"></i><span>Bandeja</span></button>
+          <button class="nav-item" data-view="reports"><i data-lucide="bar-chart-3"></i><span>Reportes</span></button>
+          <button class="nav-item" data-view="admin"><i data-lucide="settings-2"></i><span>Admin</span></button>
+        </nav>
+        <div class="scope-box">
+          <span>Alcance MVP</span>
+          <strong>Tecnologia, Marketing, Talento, Tarjetas y Negocios</strong>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Sistema Corporativo de Solicitudes</h1>
+            <p>Prototipo navegable con datos ficticios, inspirado en la estructura operativa relevada en InvGate.</p>
+          </div>
+          <div class="user-chip">
+            <i data-lucide="user-round"></i>
+            <span>Usuario Microsoft</span>
+          </div>
+        </header>
+
+        <section class="metrics-row">
+          <article>
+            <span>Abiertos</span>
+            <strong id="metricOpen">18</strong>
+          </article>
+          <article>
+            <span>Vencen hoy</span>
+            <strong id="metricDue">4</strong>
+          </article>
+          <article>
+            <span>Sin asignar</span>
+            <strong id="metricUnassigned">3</strong>
+          </article>
+          <article>
+            <span>SLA promedio</span>
+            <strong>91%</strong>
+          </article>
+        </section>
+
+        <section class="view active" id="portal">
+          <div class="workspace-grid">
+            <section class="panel catalog-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Catalogo</h2>
+                  <p>Primero se elige el servicio, despues cambia el formulario.</p>
+                </div>
+              </div>
+              <div class="catalog" id="catalog"></div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Nueva solicitud</h2>
+                  <p id="selectedPath">Tecnologia / Sistemas / Accesos / Alta de usuario</p>
+                </div>
+                <span class="pill" id="assignedTeam">Tecnologia Nivel 1</span>
+              </div>
+              <form id="ticketForm">
+                <div class="form-grid">
+                  <label>
+                    Solicitante
+                    <input value="Sucursal 184 - Alto Palermo" aria-label="Solicitante">
+                  </label>
+                  <label>
+                    Prioridad
+                    <select id="priority">
+                      <option>Media</option>
+                      <option>Baja</option>
+                      <option>Alta</option>
+                      <option>Critica</option>
+                    </select>
+                  </label>
+                  <label class="wide">
+                    Asunto
+                    <input id="subject" value="Alta de usuario para nuevo ingreso" aria-label="Asunto">
+                  </label>
+                  <label class="wide">
+                    Descripcion
+                    <textarea id="description" rows="5" aria-label="Descripcion">Nuevo colaborador ingresa el lunes. Necesita acceso a correo, Teams y sistema de gestion.</textarea>
+                  </label>
+                  <label id="dynamicFieldOne">
+                    Fecha necesaria
+                    <input type="date" value="2026-09-12" aria-label="Fecha necesaria">
+                  </label>
+                  <label id="dynamicFieldTwo">
+                    Aprobador
+                    <input value="Coordinador de area" aria-label="Aprobador">
+                  </label>
+                </div>
+                <div class="actions">
+                  <button type="button" class="secondary"><i data-lucide="paperclip"></i>Adjuntar</button>
+                  <button type="submit" class="primary"><i data-lucide="send"></i>Crear ticket demo</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="inbox">
+          <div class="workspace-grid inbox-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Bandeja de equipo</h2>
+                  <p>Vista operativa por estado, SLA, prioridad y responsable.</p>
+                </div>
+                <div class="segmented">
+                  <button class="active">No solucionados</button>
+                  <button>Sin asignar</button>
+                  <button>Mis tickets</button>
+                </div>
+              </div>
+              <div class="ticket-list" id="ticketList"></div>
+            </section>
+
+            <section class="panel detail-panel">
+              <div class="panel-head">
+                <div>
+                  <h2 id="detailTitle">Ticket #SC-1048</h2>
+                  <p id="detailCategory">Marketing / Imagen interior / Carteleria</p>
+                </div>
+                <span class="status-pill" id="detailStatus">En curso</span>
+              </div>
+              <div class="detail-body">
+                <div class="detail-summary">
+                  <div><span>Prioridad</span><strong id="detailPriority">Alta</strong></div>
+                  <div><span>SLA</span><strong id="detailSla">8h restantes</strong></div>
+                  <div><span>Equipo</span><strong id="detailTeam">Marketing</strong></div>
+                  <div><span>Esperando por</span><strong id="detailWaiting">Agente</strong></div>
+                </div>
+                <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
+                <div class="timeline">
+                  <div><i data-lucide="circle-dot"></i><span>Ticket creado desde portal web</span></div>
+                  <div><i data-lucide="circle-dot"></i><span>Asignado automaticamente por categoria</span></div>
+                  <div><i data-lucide="circle-dot"></i><span>Coordinador agrego nota interna</span></div>
+                </div>
+                <div class="actions detail-actions">
+                  <button class="secondary"><i data-lucide="message-square"></i>Responder</button>
+                  <button class="secondary"><i data-lucide="repeat-2"></i>Reasignar</button>
+                  <button class="primary"><i data-lucide="check-circle-2"></i>Resolver</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="reports">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Reportes gerenciales</h2>
+                <p>Indicadores fijos para arrancar sin depender de reportes manuales.</p>
+              </div>
+            </div>
+            <div class="report-grid">
+              <div class="report-card"><span>Tickets por area</span><div class="bar-row"><b style="width: 78%"></b><em>Tecnologia 42%</em></div><div class="bar-row"><b style="width: 58%"></b><em>Marketing 31%</em></div><div class="bar-row"><b style="width: 34%"></b><em>Talento 18%</em></div></div>
+              <div class="report-card"><span>Vencidos por prioridad</span><strong>2 criticos / 6 altos</strong><p>Sirve para escalar antes de que el usuario reclame.</p></div>
+              <div class="report-card"><span>Tiempo promedio</span><strong>14h 20m</strong><p>Resolucion promedio de los ultimos 30 dias.</p></div>
+              <div class="report-card"><span>Sucursales con mas demanda</span><strong>184, 139, 216</strong><p>Detecta locales que generan mas solicitudes.</p></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="admin">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Configuracion</h2>
+                <p>Lo que Sistemas deberia poder administrar sin tocar codigo.</p>
+              </div>
+            </div>
+            <div class="admin-grid">
+              <div><i data-lucide="git-branch"></i><strong>Catalogo jerarquico</strong><span>Area, categoria, subcategoria y accion.</span></div>
+              <div><i data-lucide="users"></i><strong>Equipos y roles</strong><span>Agentes, coordinadores, gerencia y permisos.</span></div>
+              <div><i data-lucide="timer"></i><strong>SLA por prioridad</strong><span>Primera respuesta y resolucion.</span></div>
+              <div><i data-lucide="workflow"></i><strong>Reglas automaticas</strong><span>Asignar, escalar, pausar y notificar.</span></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
