@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sistema Corporativo de Solicitudes - Demo</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=20260909-1">
   </head>
   <body>
     <header class="system-bar">
@@ -29,12 +29,12 @@
         </div>
         <nav class="nav">
           <span class="nav-label">Mi trabajo</span>
-          <button class="nav-item active" data-view="portal"><i data-lucide="plus-circle"></i><span>Nueva solicitud</span></button>
-          <button class="nav-item" data-view="inbox"><i data-lucide="list-todo"></i><span>Solicitudes</span></button>
+          <button type="button" class="nav-item active" data-view="portal"><i data-lucide="plus-circle"></i><span>Nueva solicitud</span></button>
+          <button type="button" class="nav-item" data-view="inbox"><i data-lucide="list-todo"></i><span>Solicitudes</span></button>
           <span class="nav-label">Coordinador</span>
-          <button class="nav-item" data-view="reports"><i data-lucide="bar-chart-3"></i><span>Reportes</span></button>
+          <button type="button" class="nav-item" data-view="reports"><i data-lucide="bar-chart-3"></i><span>Reportes</span></button>
           <span class="nav-label">Configuracion</span>
-          <button class="nav-item" data-view="admin"><i data-lucide="settings-2"></i><span>Catalogo y reglas</span></button>
+          <button type="button" class="nav-item" data-view="admin"><i data-lucide="settings-2"></i><span>Catalogo y reglas</span></button>
         </nav>
         <div class="scope-box">
           <span>Alcance MVP</span>
@@ -283,7 +283,7 @@
         </section>
       </main>
     </div>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="./script.js"></script>
+    <script src="./script.js?v=20260909-1"></script>
+    <script async src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" onload="window.lucide.createIcons()"></script>
   </body>
 </html>

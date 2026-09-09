@@ -106,6 +106,26 @@ const description = document.querySelector("#description");
 const dynamicFieldOne = document.querySelector("#dynamicFieldOne");
 const dynamicFieldTwo = document.querySelector("#dynamicFieldTwo");
 const ticketList = document.querySelector("#ticketList");
+const validViews = new Set(["portal", "inbox", "reports", "admin"]);
+
+function setView(viewId, updateHash = true) {
+  const targetId = validViews.has(viewId) ? viewId : "portal";
+  const targetView = document.querySelector(`#${targetId}`);
+  const targetNav = document.querySelector(`.nav-item[data-view="${targetId}"]`);
+
+  if (!targetView || !targetNav) return;
+
+  document.querySelectorAll(".nav-item").forEach((item) => item.classList.remove("active"));
+  document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+  targetNav.classList.add("active");
+  targetView.classList.add("active");
+
+  if (updateHash && window.location.hash !== `#${targetId}`) {
+    window.history.pushState(null, "", `#${targetId}`);
+  }
+
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
 
 function renderCatalog() {
   catalog.innerHTML = catalogItems.map((item, index) => `
@@ -165,10 +185,8 @@ function selectTicket(index) {
 document.addEventListener("click", (event) => {
   const nav = event.target.closest(".nav-item");
   if (nav) {
-    document.querySelectorAll(".nav-item").forEach((item) => item.classList.remove("active"));
-    document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
-    nav.classList.add("active");
-    document.querySelector(`#${nav.dataset.view}`).classList.add("active");
+    event.preventDefault();
+    setView(nav.dataset.view);
   }
 
   const catalogButton = event.target.closest(".catalog button");
@@ -195,14 +213,19 @@ document.querySelector("#ticketForm").addEventListener("submit", (event) => {
   document.querySelector("#metricOpen").textContent = String(Number(document.querySelector("#metricOpen").textContent) + 1);
   document.querySelector("#metricUnassigned").textContent = String(Number(document.querySelector("#metricUnassigned").textContent) + 1);
   renderTickets();
-  document.querySelector('.nav-item[data-view="inbox"]').click();
+  setView("inbox");
   selectTicket(0);
+});
+
+window.addEventListener("hashchange", () => {
+  setView(window.location.hash.slice(1), false);
 });
 
 renderCatalog();
 renderTickets();
 selectCatalog(0);
 selectTicket(0);
+setView(window.location.hash.slice(1) || "portal", false);
 
 if (window.lucide) {
   window.lucide.createIcons();

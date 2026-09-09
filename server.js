@@ -92,12 +92,18 @@ function serveFile(req, res) {
           res.end("Not found");
           return;
         }
-        res.writeHead(200, { "content-type": types[".html"] });
+        res.writeHead(200, {
+          "content-type": types[".html"],
+          "cache-control": "no-store"
+        });
         res.end(fallback);
       });
       return;
     }
-    res.writeHead(200, { "content-type": types[path.extname(file)] || "application/octet-stream" });
+    res.writeHead(200, {
+      "content-type": types[path.extname(file)] || "application/octet-stream",
+      "cache-control": "no-store"
+    });
     res.end(data);
   });
 }
