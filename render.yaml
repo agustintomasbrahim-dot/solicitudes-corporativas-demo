@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: solicitudes-corporativas-demo
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
