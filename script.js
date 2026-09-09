@@ -137,7 +137,9 @@ function selectCatalog(index) {
 function renderTickets() {
   ticketList.innerHTML = tickets.map((ticket, index) => `
     <button type="button" class="ticket-row ${index === 0 ? "active" : ""}" data-index="${index}">
-      <span><strong>#${ticket.id}</strong><em>${ticket.title}</em></span>
+      <span class="check-cell"><input type="checkbox" aria-label="Seleccionar ${ticket.id}"></span>
+      <span><strong>${ticket.title}</strong><em>Sucursal / usuario solicitante</em></span>
+      <span>#${ticket.id}</span>
       <span>${ticket.category}</span>
       <span class="priority ${ticket.priority}">${ticket.priority}</span>
       <span class="status-cell">${ticket.status}</span>

@@ -9,8 +9,8 @@
   <body>
     <header class="system-bar">
       <div class="system-title">
-        <strong>Grupo Dabra - Service Management</strong>
-        <span>Solicitudes corporativas</span>
+        <strong>InvGate Service Desk</strong>
+        <span>Grupo Dabra</span>
       </div>
       <div class="system-actions">
         <button title="Buscar"><i data-lucide="search"></i></button>
@@ -43,6 +43,13 @@
       </aside>
 
       <main class="main">
+        <div class="module-tabs">
+          <button class="active">Solicitudes</button>
+          <button>Problemas</button>
+          <button>Cambios</button>
+          <button>Activos</button>
+          <button>Base de conocimiento</button>
+        </div>
         <header class="topbar">
           <div>
             <h1>Solicitudes</h1>
@@ -74,6 +81,7 @@
         </section>
 
         <section class="view active" id="portal">
+          <div class="breadcrumb">Inicio / Catalogo de servicios / Nueva solicitud</div>
           <div class="workspace-grid">
             <section class="panel catalog-panel">
               <div class="panel-head">
@@ -151,6 +159,7 @@
         </section>
 
         <section class="view" id="inbox">
+          <div class="breadcrumb">Inicio / Solicitudes / No solucionadas</div>
           <div class="workspace-grid inbox-grid">
             <section class="panel">
               <div class="panel-head">
@@ -164,8 +173,16 @@
                   <button>Mis tickets</button>
                 </div>
               </div>
+              <div class="toolbar">
+                <button class="tool-button"><i data-lucide="refresh-cw"></i>Actualizar</button>
+                <button class="tool-button"><i data-lucide="filter"></i>Filtros</button>
+                <button class="tool-button"><i data-lucide="download"></i>Exportar</button>
+                <div class="toolbar-search"><i data-lucide="search"></i><input placeholder="Buscar solicitudes"></div>
+              </div>
               <div class="table-head">
+                <span></span>
                 <span>Solicitud</span>
+                <span>ID</span>
                 <span>Categoria</span>
                 <span>Prioridad</span>
                 <span>Estado</span>
@@ -183,28 +200,48 @@
                 <span class="status-pill" id="detailStatus">En curso</span>
               </div>
               <div class="detail-body">
-                <div class="detail-summary">
-                  <div><span>Prioridad</span><strong id="detailPriority">Alta</strong></div>
-                  <div><span>SLA</span><strong id="detailSla">8h restantes</strong></div>
-                  <div><span>Equipo</span><strong id="detailTeam">Marketing</strong></div>
-                  <div><span>Esperando por</span><strong id="detailWaiting">Agente</strong></div>
-                </div>
-                <div class="detail-tabs">
-                  <button class="active">Conversacion</button>
-                  <button>Campos</button>
-                  <button>Tareas</button>
-                  <button>Tiempo</button>
-                </div>
-                <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
-                <div class="timeline">
-                  <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Ticket creado desde portal web</span></div>
-                  <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Asignado automaticamente por categoria</span></div>
-                  <div><i data-lucide="circle-dot"></i><span><b>09:27</b> Coordinador agrego nota interna</span></div>
-                </div>
-                <div class="actions detail-actions">
-                  <button class="secondary"><i data-lucide="message-square"></i>Responder</button>
-                  <button class="secondary"><i data-lucide="repeat-2"></i>Reasignar</button>
-                  <button class="primary"><i data-lucide="check-circle-2"></i>Resolver</button>
+                <div class="ticket-layout">
+                  <div class="conversation-pane">
+                    <div class="detail-tabs">
+                      <button class="active">Conversacion</button>
+                      <button>Campos</button>
+                      <button>Tareas</button>
+                      <button>Tiempo</button>
+                    </div>
+                    <div class="request-card">
+                      <strong>Descripcion</strong>
+                      <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
+                    </div>
+                    <div class="reply-box">
+                      <textarea rows="3" placeholder="Escribir respuesta o nota interna"></textarea>
+                      <div>
+                        <button class="secondary"><i data-lucide="lock"></i>Nota interna</button>
+                        <button class="primary"><i data-lucide="send"></i>Enviar respuesta</button>
+                      </div>
+                    </div>
+                    <div class="timeline">
+                      <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Ticket creado desde portal web</span></div>
+                      <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Asignado automaticamente por categoria</span></div>
+                      <div><i data-lucide="circle-dot"></i><span><b>09:27</b> Coordinador agrego nota interna</span></div>
+                    </div>
+                  </div>
+                  <aside class="properties-pane">
+                    <h3>Propiedades</h3>
+                    <dl>
+                      <dt>Prioridad</dt><dd id="detailPriority">Alta</dd>
+                      <dt>SLA</dt><dd id="detailSla">8h restantes</dd>
+                      <dt>Mesa de ayuda</dt><dd id="detailTeam">Marketing</dd>
+                      <dt>Esperando por</dt><dd id="detailWaiting">Agente</dd>
+                      <dt>Origen</dt><dd>Web</dd>
+                      <dt>Tipo</dt><dd>Requerimiento</dd>
+                      <dt>Cliente</dt><dd>Sucursal 139</dd>
+                    </dl>
+                    <div class="actions detail-actions">
+                      <button class="secondary"><i data-lucide="repeat-2"></i>Reasignar</button>
+                      <button class="secondary"><i data-lucide="clock"></i>Pausar SLA</button>
+                      <button class="primary"><i data-lucide="check-circle-2"></i>Resolver</button>
+                    </div>
+                  </aside>
                 </div>
               </div>
             </section>
