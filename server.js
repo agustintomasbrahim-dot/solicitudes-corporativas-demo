@@ -109,6 +109,15 @@ function serveFile(req, res) {
 }
 
 const server = http.createServer(async (req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store"
+    });
+    res.end(JSON.stringify({ status: "ok", version: "2026-09-10-functional" }));
+    return;
+  }
+
   if (req.url === "/login" && req.method === "POST") {
     const body = await readBody(req);
     const value = new URLSearchParams(body).get("password") || "";
