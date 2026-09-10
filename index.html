@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sistema Corporativo de Solicitudes - Demo</title>
-    <link rel="stylesheet" href="./styles.css?v=20260909-1">
+    <link rel="stylesheet" href="./styles.css?v=20260910-1">
   </head>
   <body>
     <header class="system-bar">
@@ -13,9 +13,9 @@
         <span>Grupo Dabra</span>
       </div>
       <div class="system-actions">
-        <button title="Buscar"><i data-lucide="search"></i></button>
-        <button title="Notificaciones"><i data-lucide="bell"></i></button>
-        <button title="Perfil"><i data-lucide="circle-user-round"></i></button>
+        <button type="button" data-action="global-search" title="Buscar" aria-label="Buscar solicitudes"><i data-lucide="search"></i></button>
+        <button type="button" data-action="notifications" title="Notificaciones" aria-label="Ver notificaciones"><i data-lucide="bell"></i></button>
+        <button type="button" data-action="profile" title="Perfil" aria-label="Ver perfil"><i data-lucide="circle-user-round"></i></button>
       </div>
     </header>
     <div class="app-shell">
@@ -44,11 +44,11 @@
 
       <main class="main">
         <div class="module-tabs">
-          <button class="active">Solicitudes</button>
-          <button>Problemas</button>
-          <button>Cambios</button>
-          <button>Activos</button>
-          <button>Base de conocimiento</button>
+          <button type="button" class="active" data-action="module-requests">Solicitudes</button>
+          <button type="button" disabled title="Fuera del alcance de esta demo">Problemas</button>
+          <button type="button" disabled title="Fuera del alcance de esta demo">Cambios</button>
+          <button type="button" disabled title="Fuera del alcance de esta demo">Activos</button>
+          <button type="button" disabled title="Fuera del alcance de esta demo">Base de conocimiento</button>
         </div>
         <header class="topbar">
           <div>
@@ -61,23 +61,23 @@
           </div>
         </header>
 
-        <section class="metrics-row">
-          <article>
+        <section class="metrics-row" aria-label="Indicadores">
+          <button type="button" class="metric-card" data-metric="open">
             <span>Abiertos</span>
-            <strong id="metricOpen">18</strong>
-          </article>
-          <article>
+            <strong id="metricOpen">0</strong>
+          </button>
+          <button type="button" class="metric-card" data-metric="due">
             <span>Vencen hoy</span>
-            <strong id="metricDue">4</strong>
-          </article>
-          <article>
+            <strong id="metricDue">0</strong>
+          </button>
+          <button type="button" class="metric-card" data-metric="unassigned">
             <span>Sin asignar</span>
-            <strong id="metricUnassigned">3</strong>
-          </article>
-          <article>
+            <strong id="metricUnassigned">0</strong>
+          </button>
+          <button type="button" class="metric-card" data-metric="sla">
             <span>SLA promedio</span>
             <strong>91%</strong>
-          </article>
+          </button>
         </section>
 
         <section class="view active" id="portal">
@@ -105,11 +105,11 @@
                 <div class="form-grid">
                   <label>
                     Solicitante
-                    <input value="Sucursal 184 - Alto Palermo" aria-label="Solicitante">
+                    <input id="requester" value="Sucursal 184 - Alto Palermo" aria-label="Solicitante" required>
                   </label>
                   <label>
                     Origen
-                    <select aria-label="Origen">
+                    <select id="origin" aria-label="Origen">
                       <option>Web</option>
                       <option>Email</option>
                       <option>Telefono</option>
@@ -117,7 +117,7 @@
                   </label>
                   <label>
                     Tipo
-                    <select aria-label="Tipo">
+                    <select id="requestType" aria-label="Tipo">
                       <option>Requerimiento</option>
                       <option>Incidente</option>
                       <option>Consulta</option>
@@ -134,11 +134,11 @@
                   </label>
                   <label class="wide">
                     Asunto
-                    <input id="subject" value="Alta de usuario para nuevo ingreso" aria-label="Asunto">
+                    <input id="subject" value="Alta de usuario para nuevo ingreso" aria-label="Asunto" required>
                   </label>
                   <label class="wide">
                     Descripcion
-                    <textarea id="description" rows="5" aria-label="Descripcion">Nuevo colaborador ingresa el lunes. Necesita acceso a correo, Teams y sistema de gestion.</textarea>
+                    <textarea id="description" rows="5" aria-label="Descripcion" required>Nuevo colaborador ingresa el lunes. Necesita acceso a correo, Teams y sistema de gestion.</textarea>
                   </label>
                   <label id="dynamicFieldOne">
                     Fecha necesaria
@@ -150,7 +150,9 @@
                   </label>
                 </div>
                 <div class="actions">
-                  <button type="button" class="secondary"><i data-lucide="paperclip"></i>Adjuntar</button>
+                  <input id="attachmentInput" type="file" hidden>
+                  <span id="attachmentName" class="attachment-name"></span>
+                  <button type="button" class="secondary" data-action="attach"><i data-lucide="paperclip"></i>Adjuntar</button>
                   <button type="submit" class="primary"><i data-lucide="send"></i>Crear ticket demo</button>
                 </div>
               </form>
@@ -164,20 +166,25 @@
             <section class="panel">
               <div class="panel-head">
                 <div>
-                  <h2>Solicitudes no solucionadas</h2>
+                  <h2 id="inboxTitle">Solicitudes no solucionadas</h2>
                   <p>Tabla operativa por categoria, prioridad, SLA y responsable.</p>
                 </div>
                 <div class="segmented">
-                  <button class="active">No solucionados</button>
-                  <button>Sin asignar</button>
-                  <button>Mis tickets</button>
+                  <button type="button" class="active" data-ticket-filter="open">No solucionados</button>
+                  <button type="button" data-ticket-filter="unassigned">Sin asignar</button>
+                  <button type="button" data-ticket-filter="mine">Mis tickets</button>
                 </div>
               </div>
               <div class="toolbar">
-                <button class="tool-button"><i data-lucide="refresh-cw"></i>Actualizar</button>
-                <button class="tool-button"><i data-lucide="filter"></i>Filtros</button>
-                <button class="tool-button"><i data-lucide="download"></i>Exportar</button>
-                <div class="toolbar-search"><i data-lucide="search"></i><input placeholder="Buscar solicitudes"></div>
+                <button type="button" class="tool-button" data-action="refresh"><i data-lucide="refresh-cw"></i>Actualizar</button>
+                <button type="button" class="tool-button" data-action="toggle-filters"><i data-lucide="filter"></i>Filtros</button>
+                <button type="button" class="tool-button" data-action="export"><i data-lucide="download"></i>Exportar</button>
+                <div class="toolbar-search"><i data-lucide="search"></i><input id="ticketSearch" placeholder="Buscar solicitudes" aria-label="Buscar solicitudes"></div>
+              </div>
+              <div class="filter-panel" id="filterPanel" hidden>
+                <label>Prioridad<select id="filterPriority"><option value="">Todas</option><option>Baja</option><option>Media</option><option>Alta</option><option>Critica</option></select></label>
+                <label>Estado<select id="filterStatus"><option value="">Todos</option><option>Sin asignar</option><option>Asignado</option><option>En curso</option><option>Esperando tercero</option><option>Resuelto</option></select></label>
+                <button type="button" class="secondary" data-action="clear-filters">Limpiar</button>
               </div>
               <div class="table-head">
                 <span></span>
@@ -202,28 +209,29 @@
               <div class="detail-body">
                 <div class="ticket-layout">
                   <div class="conversation-pane">
-                    <div class="detail-tabs">
-                      <button class="active">Conversacion</button>
-                      <button>Campos</button>
-                      <button>Tareas</button>
-                      <button>Tiempo</button>
+                    <div class="detail-tabs" role="tablist">
+                      <button type="button" class="active" data-detail-tab="conversation" role="tab" aria-selected="true">Conversacion</button>
+                      <button type="button" data-detail-tab="fields" role="tab" aria-selected="false">Campos</button>
+                      <button type="button" data-detail-tab="tasks" role="tab" aria-selected="false">Tareas</button>
+                      <button type="button" data-detail-tab="time" role="tab" aria-selected="false">Tiempo</button>
                     </div>
-                    <div class="request-card">
-                      <strong>Descripcion</strong>
-                      <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
-                    </div>
-                    <div class="reply-box">
-                      <textarea rows="3" placeholder="Escribir respuesta o nota interna"></textarea>
-                      <div>
-                        <button class="secondary"><i data-lucide="lock"></i>Nota interna</button>
-                        <button class="primary"><i data-lucide="send"></i>Enviar respuesta</button>
+                    <div class="detail-tab-panel active" data-tab-panel="conversation">
+                      <div class="request-card">
+                        <strong>Descripcion</strong>
+                        <p id="detailText">Sucursal solicita reposicion de carteleria interior para nueva campania. Adjunta fotos del sector.</p>
                       </div>
+                      <div class="reply-box">
+                        <textarea id="replyText" rows="3" placeholder="Escribir respuesta o nota interna" aria-label="Respuesta o nota interna"></textarea>
+                        <div>
+                          <button type="button" class="secondary" data-action="internal-note"><i data-lucide="lock"></i>Nota interna</button>
+                          <button type="button" class="primary" data-action="send-reply"><i data-lucide="send"></i>Enviar respuesta</button>
+                        </div>
+                      </div>
+                      <div class="timeline" id="detailTimeline"></div>
                     </div>
-                    <div class="timeline">
-                      <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Ticket creado desde portal web</span></div>
-                      <div><i data-lucide="circle-dot"></i><span><b>09:14</b> Asignado automaticamente por categoria</span></div>
-                      <div><i data-lucide="circle-dot"></i><span><b>09:27</b> Coordinador agrego nota interna</span></div>
-                    </div>
+                    <div class="detail-tab-panel" data-tab-panel="fields"><div class="request-card"><strong>Campos de la solicitud</strong><dl id="detailFields"></dl></div></div>
+                    <div class="detail-tab-panel" data-tab-panel="tasks"><div class="request-card"><strong>Tareas</strong><p>No hay tareas pendientes para esta solicitud demo.</p></div></div>
+                    <div class="detail-tab-panel" data-tab-panel="time"><div class="request-card"><strong>Seguimiento de tiempo</strong><p id="detailTime">SLA activo.</p></div></div>
                   </div>
                   <aside class="properties-pane">
                     <h3>Propiedades</h3>
@@ -232,14 +240,14 @@
                       <dt>SLA</dt><dd id="detailSla">8h restantes</dd>
                       <dt>Mesa de ayuda</dt><dd id="detailTeam">Marketing</dd>
                       <dt>Esperando por</dt><dd id="detailWaiting">Agente</dd>
-                      <dt>Origen</dt><dd>Web</dd>
-                      <dt>Tipo</dt><dd>Requerimiento</dd>
-                      <dt>Cliente</dt><dd>Sucursal 139</dd>
+                      <dt>Origen</dt><dd id="detailOrigin">Web</dd>
+                      <dt>Tipo</dt><dd id="detailType">Requerimiento</dd>
+                      <dt>Cliente</dt><dd id="detailRequester">Sucursal 139</dd>
                     </dl>
                     <div class="actions detail-actions">
-                      <button class="secondary"><i data-lucide="repeat-2"></i>Reasignar</button>
-                      <button class="secondary"><i data-lucide="clock"></i>Pausar SLA</button>
-                      <button class="primary"><i data-lucide="check-circle-2"></i>Resolver</button>
+                      <button type="button" class="secondary" data-action="reassign"><i data-lucide="repeat-2"></i>Reasignar</button>
+                      <button type="button" class="secondary" data-action="pause-sla"><i data-lucide="clock"></i><span id="pauseSlaLabel">Pausar SLA</span></button>
+                      <button type="button" class="primary" data-action="resolve"><i data-lucide="check-circle-2"></i>Resolver</button>
                     </div>
                   </aside>
                 </div>
@@ -283,7 +291,8 @@
         </section>
       </main>
     </div>
-    <script src="./script.js?v=20260909-1"></script>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./script.js?v=20260910-1"></script>
     <script async src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" onload="window.lucide.createIcons()"></script>
   </body>
 </html>
